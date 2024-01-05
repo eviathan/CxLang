@@ -1,0 +1,25 @@
+{
+  "name": "cx",
+  "displayName": "Cx",
+  "description": "Cx Language Support",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "cx",
+      "aliases": ["Cx", "cx"],
+      "extensions": ["cx"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "cx",
+      "scopeName": "source.cx",
+      "path": "./syntaxes/cx.tmLanguage"
+    }]
+  }
+}
