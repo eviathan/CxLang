@@ -6,6 +6,12 @@
 	"version": "0.2.0",
     "configurations": [
         {
+            "name": "Compiler",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/Cx.Compiler/Cx.Compiler.csproj"
+        },
+        {
             "name": "Extension",
             "type": "extensionHost",
             "request": "launch",

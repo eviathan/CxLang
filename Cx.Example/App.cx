@@ -1,0 +1,50 @@
+namespace Cx.Example {
+    // Classes
+    // Public by default
+    class App {
+        const int Constant = 12;
+        const InferredConstant = 12; // NOTE: Not sure if this is possible
+
+        int Field = 12;
+
+        int Property { get set } = 12;
+
+        int PropertyWithGetterAndSetter { 
+            get {
+                return Property
+            } 
+            set(value) {
+                Property = value
+            } 
+        }
+
+        int PropertyWithShorthandGetterAndSetter { 
+            get => Property
+            set(value) => Property = value
+        }
+        
+        // Methods
+        // public by default
+        // void by default (if you dont specify a return type you get void)
+        Main([string] args) {
+
+            // Local variable with explict Type declaration
+            var explicitType = Person {
+                Name: "Tom Scott",
+                Age: "99"
+            }
+
+            // Local variable with anonymous Type declaration
+            var test = {
+                Name: "Brian Williams",
+                Age: 37
+            }
+
+            // Local variable using Array/ List syntax (Initialises with an empty array of that type)
+            var array = [int]
+
+            // Constant local variables (initialsed with an inferred [int] with the values 1, 2 and 3)
+            const array = [1, 2, 3]
+        }
+    }
+}

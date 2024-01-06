@@ -1,0 +1,11 @@
+{
+    "name": "Cx.Example",
+    "version": "0.0.1",
+    "sdk": "Cx.SDK",
+    "targets": [
+        {
+            "framework": "1.0",
+            "output": "executable"
+        }
+    ]
+}
