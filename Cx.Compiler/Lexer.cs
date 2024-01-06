@@ -10,8 +10,10 @@ namespace Cx.Compiler
     /// </summary>
     public static class Lexer
     {
-        public static void Run(string source)
+        public static List<Token> Parse(string source)
         {
+            List<Token> tokens = [];
+
             // var scanner = new Scanner(source);
             // var tokens = scanner.GetTokens();
 
@@ -20,6 +22,10 @@ namespace Cx.Compiler
             // {
             //     Console.WriteLine(token);
             // }
+
+            tokens.ForEach(Console.WriteLine);
+
+            return tokens;
         }
     }
 }
