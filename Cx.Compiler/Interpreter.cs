@@ -7,7 +7,7 @@ using Cx.Compiler.Interfaces;
 
 namespace Cx.Compiler
 {
-    public class Interpreter : IInterpreter
+    public class Interpreter
     {
         private List<string> _commandHistory = new List<string>();
         private int _historyIndex = -1;
@@ -37,6 +37,9 @@ namespace Cx.Compiler
                         OpenDocumentation();
                     else if(string.IsNullOrWhiteSpace(command))
                         continue;
+
+                    _commandHistory.Add(command);
+                    _historyIndex = -1;
 
                     Lexer.Parse(command);
                 }
@@ -107,7 +110,11 @@ namespace Cx.Compiler
                             _historyIndex++;
                             input.Clear();
                             input.Append(_commandHistory[_commandHistory.Count - 1 - _historyIndex]);
-                            Console.Write("\r" + new string(' ', Console.WindowWidth) + "\rcommand> " + input);
+
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.Write($"\r{new string(' ', Console.WindowWidth)}\r> ");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write(input);
                         }
                         break;
                     case ConsoleKey.DownArrow:
@@ -116,13 +123,19 @@ namespace Cx.Compiler
                             _historyIndex--;
                             input.Clear();
                             input.Append(_commandHistory[_commandHistory.Count - 1 - _historyIndex]);
-                            Console.Write("\r" + new string(' ', Console.WindowWidth) + "\rcommand> " + input);
+
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.Write($"\r{new string(' ', Console.WindowWidth)}\r> ");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write(input);
                         }
                         else if (_historyIndex == 0)
                         {
                             _historyIndex--;
                             input.Clear();
-                            Console.Write("\r" + new string(' ', Console.WindowWidth) + "\rcommand> ");
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.Write($"\r{new string(' ', Console.WindowWidth)}\r> ");
+                            Console.ForegroundColor = ConsoleColor.White;
                         }
                         break;
                     case ConsoleKey.Enter:
