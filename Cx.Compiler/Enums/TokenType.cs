@@ -3,24 +3,65 @@ namespace Cx.Compiler
     public enum TokenType
     {
         // Single-character tokens.
-        LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
-        COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR,
+        LeftParenthesis,
+        RightParenthesis,
+        LeftCurlyBrace, 
+        RightCurlyBrace,
+        Comma,
+        Dot,
+        Minus,
+        Plus,
+        ForwardSlash, 
+        Asterisk,
 
         // One or two character tokens.
-        BANG, BANG_EQUAL,
-        EQUAL, EQUAL_EQUAL,
-        GREATER, GREATER_EQUAL,
-        LESS, LESS_EQUAL,
+        Bang,
+        BangEqual,
+        Equal,
+        DoubleEqual,
+        Greater,
+        GreaterEqual,
+        Less,
+        LessEqual,
+        And,
+        Or,
 
         // Literals.
-        IDENTIFIER, STRING, NUMBER,
+        Identifier,
+        StringLiteral, 
+        IntegerLiteral,
+        FloatLiteral,
+        ObjectLiteral,
+        ArrayLiteral,
+        DictionaryLiteral,
+        TupleLiteral,
+        Unknown,
 
-        // Keywords.
-        AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NIL, OR,
-        RETURN, SUPER, THIS, TRUE, VAR, WHILE,
-        EOF,
+        // Keywords 
+        Class,
+        Interface,
+        If,
+        Else,
+        True,
+        False,
+        Null,
+        For,
+        In,
+        While,
+        Do,
+        Return,
+        Base,
+        This,
+        Var,
+        Const,
+        
+        EndOfLine,
+        EndOfFile,
 
         // Access Modifiers
-        PUBLIC, PRIVATE, PROTECTED, INTERNAL 
+        Public, 
+        Private,
+        Protected,
+        Internal 
     }
 }

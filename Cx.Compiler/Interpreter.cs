@@ -25,9 +25,9 @@ namespace Cx.Compiler
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write("> ");
                     Console.ForegroundColor = ConsoleColor.White;
-
-                    // var command = Console.ReadLine();
-                    var command = ReadLineWithHistory();
+                    var command = Console.IsInputRedirected
+                        ? Console.ReadLine()
+                        : ReadLineWithHistory();
 
                     if (command == "quit")
                         break;
@@ -41,7 +41,10 @@ namespace Cx.Compiler
                     _commandHistory.Add(command);
                     _historyIndex = -1;
 
-                    Lexer.Parse(command);
+                    var lexer = new Lexer(command);
+                    var tokens = lexer.Tokenize();
+
+                    tokens.ForEach(Console.WriteLine);
                 }
                 catch(CodeException ex)
                 {
@@ -94,6 +97,7 @@ namespace Cx.Compiler
             while(true);
         }
 
+        // TODO: Rerwrite this mess
         private string ReadLineWithHistory()
         {
             var input = new System.Text.StringBuilder();

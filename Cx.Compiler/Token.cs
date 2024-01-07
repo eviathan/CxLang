@@ -11,16 +11,18 @@ namespace Cx.Compiler
         public string Lexeme { get; set; }
         public object? Literal { get; set; }
         public int Line { get; set; }
+        public int Column { get; set; }
 
-        public Token(TokenType type, string lexeme, object? literal, int line)
+        public Token(TokenType type, string lexeme, int line, int column, object? literal = null)
         {
             Type = type;
             Lexeme = lexeme;
             Literal = literal;
             Line = line;
+            Column = column;
         }
 
         public override string ToString() =>
-            $"{Type} {Lexeme} {Literal}";
+            $"{Type} {Lexeme} {Literal} (Ln {Line}, Col {Column})";
     }
 }
