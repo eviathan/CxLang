@@ -1,16 +1,26 @@
 
+using Cx.Compiler.Enums;
+
 namespace Cx.Compiler.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class LexemeAttribute : Attribute
     {
-        public char Character { get; private set; }
+        public string Pattern { get; private set; }
         public TokenType TokenType { get; private set; }
+        public LexemeType Type { get; private set; }
 
-        public LexemeAttribute(char character, TokenType tokenType)
+        public LexemeAttribute(string pattern, LexemeType type = LexemeType.String)
         {
-            Character = character;
+            Pattern = pattern;
+            Type = type;
+        }
+
+        public LexemeAttribute(string pattern, TokenType tokenType, LexemeType type = LexemeType.String)
+        {
+            Pattern = pattern;
             TokenType = tokenType;
+            Type = type;
         }
     }
 }

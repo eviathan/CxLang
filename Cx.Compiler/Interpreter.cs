@@ -11,7 +11,9 @@ namespace Cx.Compiler
     {
         private List<string> _commandHistory = new List<string>();
         private int _historyIndex = -1;
-        
+
+        private const int TAB_SIZE = 4;
+
         public void RunPrompt()
         {
             Console.Clear();
@@ -102,6 +104,17 @@ namespace Cx.Compiler
         {
             var input = new System.Text.StringBuilder();
             ConsoleKeyInfo keyInfo;
+            int cursorIndex = 0;
+
+            void RefreshInputLine()
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write($"\r> ");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(input);
+                Console.Write(new string(' ', Console.WindowWidth - input.Length - 2));
+                Console.SetCursorPosition(cursorIndex + 2, Console.CursorTop);
+            }
 
             do
             {
@@ -114,11 +127,8 @@ namespace Cx.Compiler
                             _historyIndex++;
                             input.Clear();
                             input.Append(_commandHistory[_commandHistory.Count - 1 - _historyIndex]);
-
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.Write($"\r{new string(' ', Console.WindowWidth)}\r> ");
-                            Console.ForegroundColor = ConsoleColor.White;
-                            Console.Write(input);
+                            cursorIndex = input.Length;
+                            RefreshInputLine();
                         }
                         break;
                     case ConsoleKey.DownArrow:
@@ -127,34 +137,57 @@ namespace Cx.Compiler
                             _historyIndex--;
                             input.Clear();
                             input.Append(_commandHistory[_commandHistory.Count - 1 - _historyIndex]);
-
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.Write($"\r{new string(' ', Console.WindowWidth)}\r> ");
-                            Console.ForegroundColor = ConsoleColor.White;
-                            Console.Write(input);
+                            cursorIndex = input.Length;
+                            RefreshInputLine();
                         }
                         else if (_historyIndex == 0)
                         {
                             _historyIndex--;
                             input.Clear();
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.Write($"\r{new string(' ', Console.WindowWidth)}\r> ");
-                            Console.ForegroundColor = ConsoleColor.White;
+                            cursorIndex = 0;
+                            RefreshInputLine();
+                        }
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        if (cursorIndex > 0)
+                        {
+                            cursorIndex--;
+                            RefreshInputLine();
+                        }
+                        break;
+                    case ConsoleKey.RightArrow:
+                        if (cursorIndex < input.Length)
+                        {
+                            cursorIndex++;
+                            RefreshInputLine();
                         }
                         break;
                     case ConsoleKey.Enter:
                         Console.WriteLine();
                         return input.ToString();
                     case ConsoleKey.Backspace:
-                        if (input.Length > 0)
+                        if (input.Length > 0 && cursorIndex > 0)
                         {
-                            input.Remove(input.Length - 1, 1);
-                            Console.Write("\b \b");
+                            input.Remove(cursorIndex - 1, 1);
+                            cursorIndex--;
+                            RefreshInputLine();
                         }
                         break;
                     default:
-                        input.Append(keyInfo.KeyChar);
-                        Console.Write(keyInfo.KeyChar);
+                        if (keyInfo.Key == ConsoleKey.Tab)
+                        {
+                            var tabSpaces = new string(' ', TAB_SIZE);
+                            input.Insert(cursorIndex, tabSpaces);
+                            cursorIndex += TAB_SIZE;
+                            RefreshInputLine();
+                        }
+                        else if (!char.IsControl(keyInfo.KeyChar))
+                        {
+                            // Handle other characters
+                            input.Insert(cursorIndex, keyInfo.KeyChar);
+                            cursorIndex++;
+                            RefreshInputLine();
+                        }
                         break;
                 }
             }

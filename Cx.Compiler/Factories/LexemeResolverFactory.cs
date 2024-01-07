@@ -16,7 +16,7 @@ namespace Cx.Compiler.Factories
         }
 
         private static LexemeResolverFactory _instance;
-        private Dictionary<char, ILexemeResolver> _resolvers { get; set; } = [];
+        private Dictionary<string, ILexemeResolver> _resolvers { get; set; } = [];
 
         private LexemeResolverFactory()
         {
@@ -36,30 +36,30 @@ namespace Cx.Compiler.Factories
                 {
                     var resolverInstance = Activator.CreateInstance(resolverType) as ILexemeResolver;
 
-                    resolverInstance.Lexeme = $"{attribute.Character}";
+                    resolverInstance.Lexeme = attribute.Pattern;
                     resolverInstance.TokenType = attribute.TokenType;
                     
-                    if(_resolvers.ContainsKey(attribute.Character))
+                    if(_resolvers.ContainsKey(attribute.Pattern))
                     {
-                        throw new Exception($"Duplicate Resolvers for ({attribute.Character}) found");
+                        throw new Exception($"Duplicate Resolvers for ({attribute.Pattern}) found");
                     }
                     else
                     {
-                        _resolvers[attribute.Character] = resolverInstance;
+                        _resolvers[attribute.Pattern] = resolverInstance;
                     }
                 }
             }
         }
 
-        public ILexemeResolver GetResolver(char character)
+        public ILexemeResolver GetResolver(string pattern)
         {
-            if(_resolvers.ContainsKey(character))
+            if(_resolvers.ContainsKey(pattern))
             {
-                return _resolvers[character];
+                return _resolvers[pattern];
             }
             else
             {
-                throw new Exception($"Could not find a resolver for ({character})");
+                throw new Exception($"Could not find a resolver for ({pattern})");
             }
         }
     }
